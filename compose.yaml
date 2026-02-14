@@ -1,0 +1,29 @@
+﻿services:
+  scheduleplanner:
+    image: scheduleplanner
+    build:
+      context: .
+      dockerfile: SchedulePlanner/Dockerfile
+
+  mssql_db:
+    container_name: mssql_container
+    image: mcr.microsoft.com/mssql/server:latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+      SA_PASSWORD: "password"
+    volumes:
+      - mssqlsystem:/var/opt/mssql
+    ports:
+      - "1433:1433"
+    networks:
+      - env_net
+    restart: unless-stopped
+
+networks:
+  env_net:
+    external: true
+    driver: bridge  
+volumes:
+  mssqlsystem: 
+  mssqluser: 
