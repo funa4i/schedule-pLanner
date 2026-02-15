@@ -10,9 +10,11 @@ public class Event
     public long UserId {get; set;}
     [Column(TypeName = "varchar(256)")]
     public required string Title {get; set;}
-    public EventDateType Type {get; set;}
+    public required EventDateType Type {get; set;}
     [Column(TypeName = "varchar(8)")]
-    public required string Link {get; set;}
+    public string? Link {get; set;}
+    [Column(TypeName = "varchar(256)")] 
+    public required string TimeResult { get; set; } = ""; 
     public User? User {get; set;}
     [ForeignKey("EventId")]
     public List<Participant>? Participants {get; set;}

@@ -23,6 +23,20 @@ public class UserRepository(SchedulePlannerDbContext context)
             throw new StorageException(e);
         }
     }
+
+    public User? GetById(long id)
+    {
+        try
+        {
+            return _context.Users.FirstOrDefault(u => u.Id == id);
+        }
+        catch (Exception e)
+
+        {
+            _context.ChangeTracker.Clear();
+            throw new StorageException(e);
+        }
+    }
     
     public void Save(User user)
     {

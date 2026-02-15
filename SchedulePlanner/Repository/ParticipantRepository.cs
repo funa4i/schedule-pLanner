@@ -11,7 +11,7 @@ public class ParticipantRepository(SchedulePlannerDbContext context)
     public void Save(Participant participant)
     {
         try
-        {
+        {  
             _context.Add(participant);
             _context.SaveChanges();
         }

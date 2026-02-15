@@ -1,8 +1,9 @@
 using EntityFramework.Exceptions.Common;
+using SchedulePlannerBack.Domain;
 using SchedulePlannerBack.Domain.Entity;
 using SchedulePlannerBack.Exceptions;
 
-namespace SchedulePlannerBack.Domain.Repository;
+namespace SchedulePlannerBack.Repository;
 
 public class EventRepository(SchedulePlannerDbContext context)
 {
@@ -22,6 +23,19 @@ public class EventRepository(SchedulePlannerDbContext context)
         {
                 _context.ChangeTracker.Clear();
                 throw new StorageException(ex); 
+        }
+    }
+    
+    public  Event? GetByLink(string link)
+    {
+        try
+        {
+            return _context.Events.FirstOrDefault(e => e.Link == link);
+        }
+        catch (Exception e)
+        {
+            _context.ChangeTracker.Clear();
+            throw new StorageException(e);
         }
     }
 
