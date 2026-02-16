@@ -29,7 +29,10 @@ public class SchedulePlannerDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<User>()
-            .HasIndex(x => x.Name)
+            .Property(u => u.Id)
+            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<User>()
+            .HasIndex(x => x.Login)
             .IsUnique();
         modelBuilder.Entity<User>()
             .HasMany(x => x.Events)
@@ -41,6 +44,15 @@ public class SchedulePlannerDbContext : DbContext
             .WithOne(x => x.User)
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.SetNull);
+        modelBuilder.Entity<Participant>()
+            .Property(p => p.Id)
+            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<Event>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
+        modelBuilder.Entity<EventDate>()
+            .Property(e => e.Id)
+            .ValueGeneratedOnAdd();
     }
 
     public DbSet<Event> Events {get; set;}

@@ -14,8 +14,7 @@ public class UserService
         _userRepository = userRepository;
         _logger = logger;
     }
-
-    private User GetUserById(long userId)
+    public User GetUserById(long userId)
     {
         _logger.LogInformation("Getting user by id: {UserId}" , userId);
         return _userRepository.GetById(userId) ?? throw new ElementNotFoundException(userId.ToString());

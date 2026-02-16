@@ -15,12 +15,11 @@ public class ParticipantService
         _logger = logger;
     }
 
-    private void SaveParticipant(Participant participant, long? userId)
+    public void SaveParticipant(Participant participant)
     {
         _logger.LogInformation("Saving participant: guestName={ParticipantGuestName} " +
                                "eventId={ParticipantEventId} userId={UserId} ", 
-            participant.GuestName, participant.EventId, userId);
-        participant.UserId = userId;
+            participant.GuestName, participant.EventId, participant.UserId);
         _participantRepository.Save(participant);
     }
 }

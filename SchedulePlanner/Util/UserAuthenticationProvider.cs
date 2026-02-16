@@ -16,7 +16,7 @@ public class UserAuthenticationProvider
     {
         var user = _httpContextAccessor.HttpContext?.User;
         long.TryParse(user?.Claims
-            .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value,
+            .FirstOrDefault(c => c.Type == "UserId")?.Value,
             out long userId);
         return new UserAuthenticationInformation()
         {

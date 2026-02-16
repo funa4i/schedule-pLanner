@@ -18,7 +18,7 @@ public class EventService
     }
 
 
-    public Event CreateEvent(Event newEvent, List<(DateTime dateFrom, DateTime dateTo)> dates, long userId)
+    public Event CreateEvent(Event newEvent, List<EventDate> dates, long userId)
     {
         _logger.LogInformation("Creating new event by {UserId}", userId);
         newEvent.UserId = (long)userId!;
@@ -26,12 +26,15 @@ public class EventService
 
         var paricipant = new Participant();
         paricipant.UserId = userId;
-        paricipant.EventDates =
-            dates.Select(d => new EventDate()
-                    { DateFrom = d.dateFrom, DateTo = d.dateTo })
-                .ToList();
+        paricipant.EventDates = dates;
         _eventRepository.Save(newEvent);
         return newEvent;
+    }
+
+    public Event GetEvent(string eventLink)
+    {
+        _logger.LogInformation("Getting event by {EventLink}", eventLink);
+        return _eventRepository.GetByLink(eventLink) ?? throw  new ElementNotFoundException(eventLink);
     }
 
     public List<Event> GetAllEventsWithUserId(long userId)

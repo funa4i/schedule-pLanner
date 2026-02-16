@@ -14,10 +14,9 @@ public class UserRepository(SchedulePlannerDbContext context)
     {
         try
         {
-            return _context.Users.FirstOrDefault(u => u.Name == name);
+            return _context.Users.FirstOrDefault(u => u.Login == name);
         }
         catch (Exception e)
-
         {
             _context.ChangeTracker.Clear();
             throw new StorageException(e);
