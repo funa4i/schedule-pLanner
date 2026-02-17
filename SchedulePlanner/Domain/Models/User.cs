@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchedulePlannerBack.Domain.Entity;
 
+[Table("accounts")]
 public class User
 {
     public long Id {get; set;}

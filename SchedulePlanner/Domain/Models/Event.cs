@@ -4,6 +4,7 @@ using SchedulePlannerBack.Domain.Entity.Enums;
 
 namespace SchedulePlannerBack.Domain.Entity;
 
+[Table("user_events")]
 public class Event
 {
     public long Id {get; set;}

@@ -1,29 +1,45 @@
 ﻿services:
-  scheduleplanner:
-    image: scheduleplanner
-    build:
-      context: .
-      dockerfile: SchedulePlanner/Dockerfile
-
+  
+  
   mssql_db:
     container_name: mssql_container
     image: mcr.microsoft.com/mssql/server:latest
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_PID: "Express"
-      SA_PASSWORD: "password"
+      SA_PASSWORD: "password123!"
     volumes:
       - mssqlsystem:/var/opt/mssql
+      - ./SchedulePlanner/init/init.sql:/docker-entrypoint-initdb.d/1.sql
     ports:
       - "1433:1433"
+    healthcheck:
+      test: [ "CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P $${SA_PASSWORD} -i ./docker-entrypoint-initdb.d/1.sql -C"  ]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
     networks:
       - env_net
     restart: unless-stopped
+  scheduleplanner:
+    image: scheduleplanner
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    build:
+      context: .
+      dockerfile: SchedulePlanner/Dockerfile
+    depends_on:
+      mssql_db:
+        condition: service_healthy
+    networks:
+      - env_net
 
 networks:
   env_net:
-    external: true
     driver: bridge  
 volumes:
   mssqlsystem: 
   mssqluser: 
+
+

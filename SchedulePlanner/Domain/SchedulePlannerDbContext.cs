@@ -12,7 +12,7 @@ public class SchedulePlannerDbContext : DbContext
         _configurationDatabase = configurationDatabase ?? throw new ArgumentNullException(nameof(configurationDatabase));
     }
 
-    public SchedulePlannerDbContext()
+    private SchedulePlannerDbContext()
     {
         _configurationDatabase = new DefaultConfigurationDatabase();
     }

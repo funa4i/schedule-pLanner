@@ -14,7 +14,7 @@ public class UserAdapter
     private readonly UserService _userService;
     private readonly ILogger _logger;
     private readonly UserAuthenticationProvider _userAuthenticationProvider;
-    private readonly Mapper _mapper;
+    private readonly IMapper _mapper;
 
     public UserAdapter(UserService userService, ILogger logger, UserAuthenticationProvider userAuthenticationProvider)
     {

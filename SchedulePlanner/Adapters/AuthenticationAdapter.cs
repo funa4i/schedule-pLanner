@@ -12,12 +12,13 @@ namespace SchedulePlannerBack.Adapters;
 public class AuthenticationAdapter
 {
     private readonly AuthenticationService _authenticationService;
-    private readonly Mapper _mapper;
+    private readonly IMapper _mapper;
     private readonly ILogger _logger;
     
-    public AuthenticationAdapter(AuthenticationService authenticationService)
+    public AuthenticationAdapter(AuthenticationService authenticationService, ILogger logger)
     {
         _authenticationService = authenticationService;
+        _logger = logger;
         var cfg = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<UserRequest, User>()

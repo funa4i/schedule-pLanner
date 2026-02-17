@@ -15,14 +15,13 @@ public class ParticipantAdapter
     private readonly ParticipantService _participantService;
     private readonly ILogger<ParticipantAdapter> _logger;
     private readonly UserAuthenticationProvider  _userAuthentication;
-    private readonly Mapper _mapper;
+    private readonly IMapper _mapper;
 
-    public ParticipantAdapter(ParticipantService participantService, ILogger<ParticipantAdapter> logger, Mapper mapper,
+    public ParticipantAdapter(ParticipantService participantService, ILogger<ParticipantAdapter> logger,
         UserAuthenticationProvider userAuthentication)
     {
         _participantService = participantService;
         _logger = logger;
-        _mapper = mapper;
         _userAuthentication = userAuthentication;
         var cfg = new MapperConfiguration(cfg =>
         {

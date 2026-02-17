@@ -17,12 +17,12 @@ public class JwtService
             new Claim("UserId", user.Id.ToString())
         };
         return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
-            issuer: authOptions.ISSUER,
-            audience: authOptions.AUDIENCE,
+            issuer: authOptions.Issuer,
+            audience: authOptions.Audience,
             claims: claim ,
             expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(20)),
             signingCredentials: new
-                SigningCredentials(authOptions.GetSymmetricSecurityKey(),
+                SigningCredentials(AuthOptions.GetSymmetricSecurityKey(authOptions.Key),
                     SecurityAlgorithms.HmacSha256)));
     }
 }

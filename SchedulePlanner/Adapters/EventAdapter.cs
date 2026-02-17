@@ -12,15 +12,14 @@ namespace SchedulePlannerBack.Adapters;
 
 public class EventAdapter
 {
-    private readonly Mapper _mapper;
+    private readonly IMapper _mapper;
     private readonly ILogger _logger;
     private readonly EventService _eventService;
     private readonly UserAuthenticationProvider _userAuthentication;
 
-    public EventAdapter(Mapper mapper, ILogger logger, EventService eventService,
+    public EventAdapter(ILogger logger, EventService eventService,
         UserAuthenticationProvider userAuthentication)
     {
-        _mapper = mapper;
         _logger = logger;
         _eventService = eventService;
         _userAuthentication = userAuthentication;
