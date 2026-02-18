@@ -26,6 +26,8 @@
     image: scheduleplanner
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+        - "8081:8080"
     build:
       context: .
       dockerfile: SchedulePlanner/Dockerfile
