@@ -1,14 +1,17 @@
 using EntityFramework.Exceptions.Common;
+using Microsoft.EntityFrameworkCore;
 using SchedulePlannerBack.Domain;
 using SchedulePlannerBack.Domain.Entity;
 using SchedulePlannerBack.Exceptions;
+using SchedulePlannerBack.Interfaces;
 
 namespace SchedulePlannerBack.Repository;
 
-public class EventRepository(SchedulePlannerDbContext context)
+public class EventRepository(SchedulePlannerDbContext context) : IEventRepository
 {
     private readonly SchedulePlannerDbContext _context = context;
-    public void Save(Event ev){
+    public void Save(Event ev)
+    {
         try
         {
                 _context.Add(ev);
@@ -25,12 +28,30 @@ public class EventRepository(SchedulePlannerDbContext context)
                 throw new StorageException(ex); 
         }
     }
+
+    public void Update(Event ev)
+    {
+        try
+        {
+           _context.Update(ev);
+        }
+        catch (Exception e)
+        {
+            _context.ChangeTracker.Clear();
+            throw new StorageException(e);
+        }
+    }
+    
     
     public  Event? GetByLink(string link)
     {
         try
         {
-            return _context.Events.FirstOrDefault(e => e.Link == link);
+            return _context
+                .Events
+                .Include(e => e.Participants)!
+                .ThenInclude(p => p.EventDates)
+                .FirstOrDefault(e => e.Link == link);
         }
         catch (Exception e)
         {
@@ -44,6 +65,7 @@ public class EventRepository(SchedulePlannerDbContext context)
         try
         {
             return _context.Events
+                .Include(p => p.Participants)!.ThenInclude(p => p.EventDates)
                 .Where(e => e.UserId == userId || e.Participants!.Any(p => p.UserId == userId))
                 .ToList();
         }

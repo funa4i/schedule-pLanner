@@ -10,6 +10,11 @@ public class ParticipantView
         EventDateViews = eventDateViews;
     }
 
+    public ParticipantView()
+    {
+        
+    }
+
     public string GuestName {get; set;}
     List<EventDateView>  EventDateViews {get; set;}
 }

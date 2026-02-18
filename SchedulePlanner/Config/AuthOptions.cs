@@ -3,7 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace SchedulePlannerBack;
 
-public class AuthOptions(IConfiguration config)
+public class AuthOptions
 {
     public string Issuer {get; set;} 
     public string Audience {get; set;} 

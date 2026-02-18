@@ -3,10 +3,11 @@ using EntityFramework.Exceptions.Common;
 using Microsoft.EntityFrameworkCore;
 using SchedulePlannerBack.Domain.Entity;
 using SchedulePlannerBack.Exceptions;
+using SchedulePlannerBack.Interfaces;
 
 namespace SchedulePlannerBack.Domain.Repository;
 
-public class UserRepository(SchedulePlannerDbContext context)
+public class UserRepository(SchedulePlannerDbContext context) : IUserRepository
 {
     private readonly SchedulePlannerDbContext _context = context;
 

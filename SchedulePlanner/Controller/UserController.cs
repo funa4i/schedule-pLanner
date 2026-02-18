@@ -11,6 +11,11 @@ public class UserController : ControllerBase
 {
     private readonly UserAdapter _userAdapter;
 
+    public UserController(UserAdapter userAdapter)
+    {
+        _userAdapter = userAdapter;
+    }
+
 
     [HttpGet]
     [Authorize]

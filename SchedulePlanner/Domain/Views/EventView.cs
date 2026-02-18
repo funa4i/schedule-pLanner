@@ -15,6 +15,10 @@ public class EventView
         Participants = participants;
     }
 
+    public EventView()
+    {
+    }
+
     public long Id { get; set; }
     public string Title { get; set; }
     public EventDateType Type { get; set; }

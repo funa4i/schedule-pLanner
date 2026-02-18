@@ -5,6 +5,7 @@ using SchedulePlannerBack.Domain.Bindings;
 using SchedulePlannerBack.Domain.Entity;
 using SchedulePlannerBack.Domain.Views;
 using SchedulePlannerBack.Exceptions;
+using SchedulePlannerBack.Interfaces.Application;
 using SchedulePlannerBack.Service;
 using SchedulePlannerBack.Util;
 
@@ -14,10 +15,10 @@ public class EventAdapter
 {
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
-    private readonly EventService _eventService;
+    private readonly IEventService _eventService;
     private readonly UserAuthenticationProvider _userAuthentication;
 
-    public EventAdapter(ILogger logger, EventService eventService,
+    public EventAdapter(ILogger logger, IEventService eventService,
         UserAuthenticationProvider userAuthentication)
     {
         _logger = logger;
@@ -32,6 +33,7 @@ public class EventAdapter
                     src => src.MapFrom(x => x.User!.Login));
             cfg.CreateMap<ParticipantRequest, Participant>()
                 .ForMember(p => p.EventDates, opt => opt.MapFrom(p => p.EventDates));
+            cfg.CreateMap<Participant, ParticipantView>();
         });
         _mapper = new Mapper(cfg);
     }
@@ -49,6 +51,11 @@ public class EventAdapter
             _logger.LogError(ex, "StorageException");
             return OperationResponse.InternalServerError<OperationResponse>(
                 $"Error while working with data storage: {ex.InnerException!.Message}");
+        }
+        catch (ElementNotFoundException e)
+        {
+            _logger.LogError(e, "User not found");
+            return OperationResponse.NotFound<OperationResponse>();
         }
         catch(Exception ex)
         {
@@ -130,6 +137,11 @@ public class EventAdapter
         {
             _logger.LogError(ex, "StorageException");
             return OperationResponse.InternalServerError<OperationResponse>($"Error while working with data storage: {ex.InnerException!.Message}");
+        }
+        catch (ElementNotFoundException e)
+        {
+            _logger.LogError(e, "User not found");
+            return OperationResponse.NotFound<OperationResponse>();
         }
         catch(Exception ex)
         {

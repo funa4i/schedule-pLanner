@@ -18,5 +18,9 @@ public class EventDateRequest : IValidation
     {
         if (DateFrom > DateTo)
             throw new IncorrectDatesException(DateFrom, DateTo);
+        if (DateTime.UtcNow > DateFrom)
+        {
+            throw new IncorrectDatesException(DateFrom, DateTime.UtcNow);
+        }
     }
 }

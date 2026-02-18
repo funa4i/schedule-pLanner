@@ -21,9 +21,7 @@ public class AuthenticationAdapter
         _logger = logger;
         var cfg = new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<UserRequest, User>()
-                .ForMember(x => x.Id,
-                    x => x.Ignore());
+            cfg.CreateMap<UserRequest, User>();
         });
         _mapper = new Mapper(cfg);
     }

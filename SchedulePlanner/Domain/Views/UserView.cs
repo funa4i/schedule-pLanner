@@ -8,6 +8,11 @@ public class UserView
         Login = login;
     }
 
+    public UserView()
+    {
+        
+    }
+
     public long UserId {get; set;}
     public string Login {get; set;}
 }

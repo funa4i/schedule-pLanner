@@ -9,6 +9,7 @@ public class Event
 {
     public long Id {get; set;}
     public long UserId {get; set;}
+    
     [Column(TypeName = "varchar(256)")]
     public required string Title {get; set;}
     public required EventDateType Type {get; set;}

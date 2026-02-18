@@ -9,6 +9,12 @@ namespace SchedulePlannerBack.Service;
 public class JwtService
 {
     private readonly AuthOptionsConfigurer _authOptionsConfigurer;
+
+    public JwtService(AuthOptionsConfigurer authOptionsConfigurer)
+    {
+        _authOptionsConfigurer = authOptionsConfigurer;
+    }
+
     public string GetToken(User user)
     {
         var authOptions = _authOptionsConfigurer.AuthOptions;

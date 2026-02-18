@@ -1,10 +1,12 @@
 using EntityFramework.Exceptions.Common;
+using SchedulePlannerBack.Domain;
 using SchedulePlannerBack.Domain.Entity;
 using SchedulePlannerBack.Exceptions;
+using SchedulePlannerBack.Interfaces;
 
-namespace SchedulePlannerBack.Domain.Repository;
+namespace SchedulePlannerBack.Repository;
 
-public class ParticipantRepository(SchedulePlannerDbContext context)
+public class ParticipantRepository(SchedulePlannerDbContext context) : IParticipantRepository
 {
     private readonly SchedulePlannerDbContext _context = context;
     

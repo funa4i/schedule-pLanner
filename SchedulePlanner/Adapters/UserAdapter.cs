@@ -4,6 +4,7 @@ using SchedulePlannerBack.Domain.Bindings;
 using SchedulePlannerBack.Domain.Entity;
 using SchedulePlannerBack.Domain.Views;
 using SchedulePlannerBack.Exceptions;
+using SchedulePlannerBack.Interfaces.Application;
 using SchedulePlannerBack.Service;
 using SchedulePlannerBack.Util;
 
@@ -11,12 +12,12 @@ namespace SchedulePlannerBack.Adapters;
 
 public class UserAdapter
 {
-    private readonly UserService _userService;
+    private readonly IUserService _userService;
     private readonly ILogger _logger;
     private readonly UserAuthenticationProvider _userAuthenticationProvider;
     private readonly IMapper _mapper;
 
-    public UserAdapter(UserService userService, ILogger logger, UserAuthenticationProvider userAuthenticationProvider)
+    public UserAdapter(IUserService userService, ILogger logger, UserAuthenticationProvider userAuthenticationProvider)
     {
         _userService = userService;
         _logger = logger;

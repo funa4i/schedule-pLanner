@@ -1,10 +1,12 @@
 using AutoMapper;
 using EntityFramework.Exceptions.Common;
+using SchedulePlannerBack.Application;
 using SchedulePlannerBack.Controller;
 using SchedulePlannerBack.Domain.Bindings;
 using SchedulePlannerBack.Domain.Entity;
 using SchedulePlannerBack.Domain.Views;
 using SchedulePlannerBack.Exceptions;
+using SchedulePlannerBack.Interfaces.Application;
 using SchedulePlannerBack.Service;
 using SchedulePlannerBack.Util;
 
@@ -12,12 +14,12 @@ namespace SchedulePlannerBack.Adapters;
 
 public class ParticipantAdapter
 {
-    private readonly ParticipantService _participantService;
+    private readonly IParticipantService _participantService;
     private readonly ILogger<ParticipantAdapter> _logger;
     private readonly UserAuthenticationProvider  _userAuthentication;
     private readonly IMapper _mapper;
 
-    public ParticipantAdapter(ParticipantService participantService, ILogger<ParticipantAdapter> logger,
+    public ParticipantAdapter(IParticipantService participantService, ILogger<ParticipantAdapter> logger,
         UserAuthenticationProvider userAuthentication)
     {
         _participantService = participantService;
@@ -53,10 +55,16 @@ public class ParticipantAdapter
             _logger.LogError(e, "Participant already exists");
             return OperationResponse.BadRequest<OperationResponse>();
         }
-        catch(StorageException ex)
+        catch (StorageException ex)
         {
             _logger.LogError(ex, "StorageException");
-            return OperationResponse.InternalServerError<OperationResponse>($"Error while working with data storage: {ex.InnerException!.Message}");
+            return OperationResponse.InternalServerError<OperationResponse>(
+                $"Error while working with data storage: {ex.InnerException!.Message}");
+        }
+        catch (IncorrectDatesException e)
+        {
+            _logger.LogError(e, "InvalidDataException");
+            return OperationResponse.BadRequest<OperationResponse>($"Invalid data transmitted: {e.Message}");
         }
         catch(Exception ex)
         {

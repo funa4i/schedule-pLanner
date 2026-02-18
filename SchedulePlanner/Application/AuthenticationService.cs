@@ -4,16 +4,17 @@ using Microsoft.Identity.Client;
 using SchedulePlannerBack.Domain.Entity;
 using SchedulePlannerBack.Domain.Repository;
 using SchedulePlannerBack.Exceptions;
+using SchedulePlannerBack.Interfaces;
 
 namespace SchedulePlannerBack.Service;
 
 public class AuthenticationService
 {
-    private readonly UserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
     private readonly ILogger _logger;
     private readonly JwtService _jwtService;
     
-    public AuthenticationService(UserRepository userRepository, ILogger logger, JwtService jwtService)
+    public AuthenticationService(IUserRepository userRepository, ILogger logger, JwtService jwtService)
     {
         _userRepository = userRepository;
         _logger = logger;
@@ -39,6 +40,7 @@ public class AuthenticationService
         {
             throw new AuthenticationException();
         }
+        user =  _userRepository.GetByName(user.Login)!;
         return _jwtService.GetToken(user);
     }
 }

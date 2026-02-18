@@ -5,7 +5,8 @@ using SchedulePlannerBack.Domain.Bindings;
 namespace SchedulePlannerBack.Controller;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]/[action]")]
+[Produces("application/json")]
 public class AuthController : ControllerBase
 {
     private readonly AuthenticationAdapter _authenticationAdapter;
@@ -15,13 +16,13 @@ public class AuthController : ControllerBase
         _authenticationAdapter = authenticationAdapter;
     }
 
-    [HttpPost("signup")]
+    [HttpPost]
     public IActionResult SignUp([FromBody] UserRequest userRequest)
     {
         return _authenticationAdapter.CreateUser(userRequest).GetResponse(Request, Response);
     }
 
-    [HttpGet("signin")]
+    [HttpPost]
     public IActionResult SignIn([FromBody] UserRequest userRequest)
     {
         return _authenticationAdapter.ValidateUser(userRequest).GetResponse(Request, Response);

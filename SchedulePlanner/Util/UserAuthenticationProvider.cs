@@ -15,12 +15,18 @@ public class UserAuthenticationProvider
     public UserAuthenticationInformation GetUserInformation()
     {
         var user = _httpContextAccessor.HttpContext?.User;
-        long.TryParse(user?.Claims
-            .FirstOrDefault(c => c.Type == "UserId")?.Value,
-            out long userId);
+        var value = user?.Claims
+            .FirstOrDefault(c => c.Type == "UserId")?.Value;
+        if (value == null)
+        {
+            return new UserAuthenticationInformation()
+            {
+                UserId =  null,
+            };
+        }
         return new UserAuthenticationInformation()
         {
-            UserId = userId == 0? null: userId,
+            UserId =  long.Parse(value),
         };
     }
 }

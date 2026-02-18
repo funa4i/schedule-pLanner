@@ -38,7 +38,8 @@ public class EventController : ControllerBase
         return _eventAdapter.GetEventWithLink(link).GetResponse(Request, Response);
     }
 
-    [HttpGet("/{link}/optimal")]
+    [Authorize]
+    [HttpGet ("{link}/optimal")]
     public IActionResult GetOptimal(string link)
     {
         return _eventAdapter.ResultEventTime(link).GetResponse(Request, Response);

@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using SchedulePlannerBack.Exceptions;
 using SchedulePlannerBack.Util;
 
 namespace SchedulePlannerBack.Domain.Bindings;

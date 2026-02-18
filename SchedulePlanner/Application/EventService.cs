@@ -1,17 +1,19 @@
 using SchedulePlannerBack.Domain.Entity;
 using SchedulePlannerBack.Exceptions;
+using SchedulePlannerBack.Interfaces;
+using SchedulePlannerBack.Interfaces.Application;
 using SchedulePlannerBack.Repository;
 using SchedulePlannerBack.Util;
 using LinkGenerator = SchedulePlannerBack.Util.LinkGenerator;
 
 namespace SchedulePlannerBack.Service;
 
-public class EventService
+public class EventService : IEventService
 {
     private readonly ILogger _logger;
-    private readonly EventRepository _eventRepository;
+    private readonly IEventRepository _eventRepository;
 
-    public EventService(ILogger logger, EventRepository eventRepository)
+    public EventService(ILogger logger, IEventRepository eventRepository)
     {
         _logger = logger;
         _eventRepository = eventRepository;
@@ -27,6 +29,7 @@ public class EventService
         var paricipant = new Participant();
         paricipant.UserId = userId;
         paricipant.EventDates = dates;
+        newEvent.Participants = [paricipant];
         _eventRepository.Save(newEvent);
         return newEvent;
     }
@@ -39,7 +42,7 @@ public class EventService
 
     public List<Event> GetAllEventsWithUserId(long userId)
     {
-        return _eventRepository.GetAllEventsWithUserId(userId);
+        return _eventRepository.GetAllEventsWithUserId(userId).ToList();
     }
 
     public Event ResultEventTime(string eventLink, long userId)
@@ -69,7 +72,7 @@ public class EventService
         {
             dbEvent.TimeResult = "from: " + dateTimeFrom + " to: " + dateTimeTo;
         }
-        _eventRepository.Save(dbEvent);
+        _eventRepository.Update(dbEvent);
         return dbEvent;
     }
 
